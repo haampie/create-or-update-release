@@ -1,0 +1,42 @@
+name: Build
+
+on: 
+  create:
+    tags:
+      - v*
+
+jobs:
+  build-ubuntu:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - uses: actions/checkout@v2
+      with:
+        submodules: recursive
+        path: sources/repo
+
+    - name: Create source tarball
+      run: |
+        tar -C sources -zcvf repo.tar.gz repo
+
+    - name: Upload sources
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./sources.tar.gz
+        asset_name: sources.tar.gz
+        asset_content_type: application/gzip
