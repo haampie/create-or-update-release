@@ -1,9 +1,9 @@
 name: Build
 
 on: 
-  create:
-    tags:
-      - v*
+  release:
+    types:
+      - created
 
 jobs:
   build-ubuntu:
@@ -20,6 +20,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
       with:
+        ref: ${{ env.GITHUB_REF }}
         submodules: recursive
         path: sources/repo
 
