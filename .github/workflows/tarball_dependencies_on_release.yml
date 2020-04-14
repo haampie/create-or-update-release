@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Get Release
       id: get
-      uses: bruceadams/get-release@v1
+      uses: bruceadams/get-release@v1.2.0
 
     - name: Checkout
       uses: actions/checkout@v2
