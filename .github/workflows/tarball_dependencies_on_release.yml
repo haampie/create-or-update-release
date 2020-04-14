@@ -27,7 +27,7 @@ jobs:
     - name: Create sources tarball
       run: |
         tar --exclude-vcs -C sources -zcvf repo.tar.gz repo
-        zip -9 -x \*.git\* -r sources.zip sources/repo
+        zip -9 -x \*.git\* -r repo.zip sources/repo
 
     - name: Upload tar
       uses: actions/upload-release-asset@v1
